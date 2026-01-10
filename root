@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💥 MEGA JACKPOT CASINO 💥</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:repeating-linear-gradient(45deg,#120018 0 10px,#1f0029 10px 20px),radial-gradient(circle at top,#ff00cc,#000 70%);font-family:Impact,'Trebuchet MS',system-ui,sans-serif;color:#fff;display:flex;align-items:center;justify-content:center}
+    .top-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(90deg,#ff0000,#ffcc00,#00ffcc,#ff00cc);color:#000;font-size:1.1rem;padding:6px 0;text-align:center;font-weight:bold;z-index:20}
+    .credit-counter{position:fixed;top:44px;right:20px;background:linear-gradient(180deg,#00ff00,#00aa00);color:#000;padding:16px 26px;border-radius:18px;font-size:2rem;font-weight:900;box-shadow:0 0 30px #00ff00,inset 0 0 10px #fff;z-index:15}
+    .social-popup{position:fixed;bottom:20px;left:20px;background:linear-gradient(90deg,#00ffcc,#00aa99);color:#000;padding:14px 20px;border-radius:18px;font-weight:900;font-size:1.1rem;box-shadow:0 0 25px #00ffcc;opacity:0;transition:opacity 1s;z-index:50}
+    .social-popup.show{opacity:1}
+    .app{display:grid;grid-template-columns:220px 1fr;gap:24px;background:rgba(0,0,0,0.75);padding:26px;border-radius:26px;box-shadow:0 0 80px rgba(255,0,200,0.9);max-width:980px;width:100%;margin-top:60px}
+    .menu{background:linear-gradient(180deg,#ff00cc,#5a0099);border-radius:18px;padding:14px}
+    .menu h2{text-align:center;color:#ffff00;margin:0 0 10px}
+    .slot-option{background:#000;border-radius:14px;padding:12px;margin-bottom:10px;cursor:pointer;border:2px solid #ff00cc}
+    .slot-option.active{background:linear-gradient(90deg,#ff0000,#ffcc00);color:#000}
+    .machine{position:relative;background:linear-gradient(180deg,#ffcc00,#ff6600);border-radius:26px;padding:30px;text-align:center;border:4px solid #fff}
+    h1{margin:0 0 14px;font-size:2.2rem;color:#ff0000}
+    .reels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;background:#000;padding:18px;border-radius:18px;margin-bottom:18px}
+    .reel{background:#fff;border-radius:14px;font-size:3.2rem;height:90px;display:flex;align-items:center;justify-content:center;color:#000;overflow:hidden}
+    .reel.spinning{animation:spin 0.25s linear infinite;}
+@keyframes spin{0%{transform:translateY(0)}100%{transform:translateY(-100%)}}
+    @keyframes spin{0%{transform:translateY(0)}50%{transform:translateY(-40%)}100%{transform:translateY(0)}}
+    button{background:linear-gradient(180deg,#ff0000,#ffcc00);border:3px solid #fff;border-radius:999px;padding:18px;font-size:1.4rem;font-weight:900;cursor:pointer}
+    .message{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:2.6rem;font-weight:900;pointer-events:none;white-space:nowrap;background:radial-gradient(circle at top,#ffffff,#ffcc00);color:#000;padding:16px 26px;border-radius:999px;box-shadow:0 0 30px #fff,0 0 60px #ff00cc;display:none}
+    .bonus-overlay,.gameover-overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:999}
+    .bonus-box{background:linear-gradient(180deg,#ff0000,#ffcc00);border-radius:26px;padding:30px 36px;text-align:center}
+  </style>
+</head>
+<body>
+<div class="top-banner">🔥 1000% BONUS • LIMITED TIME 🔥</div>
+<div class="credit-counter">💰 <span id="creditsBig">100</span></div>
+<div class="social-popup" id="socialPopup"></div>
+
+<div class="bonus-overlay" id="bonusOverlay">
+  <div class="bonus-box">
+    <h2 style="font-size:3rem">🚫 OUT OF CREDITS 🚫</h2>
+    <div>Bonus expires in</div>
+    <div id="bonusTimer" style="font-size:4rem;font-weight:900">10</div>
+    <button id="claimBonus">CLAIM 50 CREDITS</button>
+  </div>
+</div>
+
+<div class="gameover-overlay" id="gameoverOverlay">
+  <div class="bonus-box">
+    <div>❌ YOU LOSE ❌</div>
+    <button id="restartBtn">RESTART</button>
+  </div>
+</div>
+
+<div class="app">
+  <div class="menu">
+    <h2>MEGA SLOTS</h2>
+    <div class="slot-option active" data-machine="0">Lucky Fruits ★☆☆☆☆</div>
+    <div class="slot-option" data-machine="1">Neon Diamonds ★★☆☆☆</div>
+    <div class="slot-option" data-machine="2">Golden Bells ★★★☆☆</div>
+    <div class="slot-option" data-machine="3">Mega 777 ★★★★☆</div>
+    <div class="slot-option" data-machine="4">High Roller 777 ★★★★★</div>
+  </div>
+
+  <div class="machine">
+    <h1>GRAND CASINO ONLINE</h1>
+    <div class="reels">
+      <div class="reel" id="reel1">🍒</div>
+      <div class="reel" id="reel2">🍋</div>
+      <div class="reel" id="reel3">🔔</div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div id="betLabel" style="font-size:1.4rem;font-weight:900;margin-bottom:6px">BET: 10</div>
+      <input id="betSlider" type="range" min="1" max="100" value="10" style="width:100%">
+    </div>
+    <button id="spinBtn">SPIN</button>
+    <div class="message" id="message"></div>
+  </div>
+</div>
+
+<script>
+  // --- AUDIO SETUP (unlocked on first user interaction) ---
+  const sounds = {
+    spin: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-slot-machine-spin-1930.mp3'),
+    win: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-casino-win-1999.mp3'),
+    lose: new Audio('https://assets.mixkit.co/sfx/preview/mixkit-losing-drums-2023.mp3')
+  };
+  Object.values(sounds).forEach(a=>{a.volume=0.5});
+  let audioUnlocked=false;
+  document.addEventListener('click',()=>{
+    if(audioUnlocked) return;
+    audioUnlocked=true;
+    Object.values(sounds).forEach(a=>a.play().then(()=>a.pause()).catch(()=>{}));
+  },{once:true});
+  const reels=[reel1,reel2,reel3];
+  const creditsBig=document.getElementById('creditsBig');
+  const messageEl=document.getElementById('message');
+  const spinBtn=document.getElementById('spinBtn');
+  const bonusOverlay=document.getElementById('bonusOverlay');
+  const gameoverOverlay=document.getElementById('gameoverOverlay');
+  const bonusTimerEl=document.getElementById('bonusTimer');
+  const claimBtn=document.getElementById('claimBonus');
+  const restartBtn=document.getElementById('restartBtn');
+  const popup=document.getElementById('socialPopup');
+  const betSlider=document.getElementById('betSlider');
+  const betLabel=document.getElementById('betLabel');
+
+  let credits=100,bet=10,currentMachine=0;
+
+  const machines=[
+    {symbols:['🍒','🍋','🔔']},
+    {symbols:['💎','🔔','🍋']},
+    {symbols:['🔔','💎','🍒']},
+    {symbols:['7️⃣','💎','🔔']},
+    {symbols:['7️⃣','7️⃣','💎']}
+  ];
+
+  function syncBet(val){
+    if(credits<=0){bet=0;betSlider.value=0;betLabel.textContent='BET: 0';return;}
+    bet=Math.max(1,Math.min(+val,credits));
+    betSlider.max=credits;
+    betSlider.value=bet;
+    betLabel.textContent=bet===credits?'BET: ALL IN':`BET: ${bet}`;
+  }
+  betSlider.oninput=e=>syncBet(e.target.value);
+  syncBet(bet);
+
+  function randomSymbol(){
+    const pool=machines[currentMachine].symbols;
+    return pool[Math.floor(Math.random()*pool.length)];
+  }
+
+  function spin(){
+    if(audioUnlocked){ sounds.spin.currentTime=0; sounds.spin.play(); }
+    if(credits<bet||bet<=0)return;
+    credits-=bet;
+    creditsBig.textContent=credits;
+    syncBet(bet);
+    spinBtn.disabled=true;
+
+    reels.forEach(r=>r.classList.add('spinning'));
+
+    reels.forEach((reel,index)=>{
+      let spins=0;
+      const interval=setInterval(()=>{
+        reel.textContent=randomSymbol();
+        spins++;
+        if(spins>14+index*6){
+          clearInterval(interval);
+          reel.classList.remove('spinning');
+          if(index===reels.length-1){
+            spinBtn.disabled=false;
+            checkWin();
+          }
+        }
+      },70);
+    });
+  }
+
+  function checkWin(){
+    if(audioUnlocked){ sounds.spin.pause(); }
+    const [a,b,c]=reels.map(r=>r.textContent);
+    messageEl.style.display='block';
+    if(a===b&&b===c){
+      credits+=bet*(4+currentMachine*2);
+      messageEl.textContent='💥💰 JACKPOT!!! 💰💥';
+      if(audioUnlocked){ sounds.win.currentTime=0; sounds.win.play(); }
+    } else {
+      messageEl.textContent='❌ YOU LOSE ❌';
+      if(audioUnlocked){ sounds.lose.currentTime=0; sounds.lose.play(); }
+    }
+    creditsBig.textContent=credits;
+    if(credits<=0)startBonus();
+    setTimeout(()=>messageEl.style.display='none',1000);
+  }
+
+  spinBtn.onclick=spin;
+
+  document.querySelectorAll('.slot-option').forEach(o=>o.onclick=()=>{
+    if(spinBtn.disabled)return;
+    document.querySelectorAll('.slot-option').forEach(x=>x.classList.remove('active'));
+    o.classList.add('active');
+    currentMachine=+o.dataset.machine;
+  });
+
+  function startBonus(){
+    let t=10;
+    bonusOverlay.style.display='flex';
+    bonusTimerEl.textContent=t;
+    const int=setInterval(()=>{
+      bonusTimerEl.textContent=--t;
+      if(t<=0){
+        clearInterval(int);
+        bonusOverlay.style.display='none';
+        gameoverOverlay.style.display='flex';
+      }
+    },1000);
+    claimBtn.onclick=()=>{
+      clearInterval(int);
+      bonusOverlay.style.display='none';
+      credits=50;
+      creditsBig.textContent=credits;
+      syncBet(credits);
+    };
+  }
+
+  restartBtn.onclick=()=>{
+    gameoverOverlay.style.display='none';
+    credits=100;
+    creditsBig.textContent=credits;
+    syncBet(credits);
+  };
+
+  const names=['Alex','Jordan','LuckyFox','CryptoKing','NeonWolf','Ace77','ShadowSpin'];
+  (function social(){
+    const n=names[Math.floor(Math.random()*names.length)];
+    const a=Math.floor(Math.random()*900+100);
+    popup.textContent=`${n} just won ${a} credits!`;
+    popup.classList.add('show');
+    setTimeout(()=>popup.classList.remove('show'),3000);
+    setTimeout(social,Math.random()*5000+5000);
+  })();
+</script>
+</body>
+</html>
